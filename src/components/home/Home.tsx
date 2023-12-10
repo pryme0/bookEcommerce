@@ -11,15 +11,18 @@ export const Home = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const getBooks = async () => {
-    return (await axiosInstance.get(`/books?page=${page}&pageSize=5`)).data;
+    try {
+      return (await axiosInstance.get(`/books?page=${page}&pageSize=5`)).data;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchBooks = async () => {
     const books = await getBooks();
-    if (books.length === 0) {
+    if (books && books.length === 0) {
       setHasMore(false);
     }
-
     setBooks((prevBooks) => [...(prevBooks || []), ...books.books]);
     setPage((prevPage) => prevPage + 1);
   };
@@ -44,7 +47,7 @@ export const Home = () => {
             dataLength={books.length}
             next={fetchBooks}
             hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
+            loader={<h4 style={{ textAlign: "center" }}>Loading books...</h4>}
             endMessage={
               <p style={{ textAlign: "center" }}>
                 <b>No more books</b>

@@ -15,7 +15,6 @@ export const OrderItem = ({
 
   const cancelOrder = async (id: string) => {
     try {
-      console.log("running");
       setCancelingOrder(true);
       await axiosInstance.delete(`/orders/${id}`);
       removeOrder(id);
