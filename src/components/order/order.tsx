@@ -82,14 +82,15 @@ export const Orders = () => {
       <Container>
         <Title>Your Orders</Title>
         <InfiniteScroll
-          dataLength={orders.length}
+          dataLength={orders?.length}
           next={loadMoreOrders}
           hasMore={hasMore}
           loader={<FaSpinner size={30} />}
         >
-          {orders.map((order, index) => (
-            <OrderItem order={order} removeOrder={removeOrder} />
-          ))}
+          {orders &&
+            orders?.map((order, index) => (
+              <OrderItem order={order} removeOrder={removeOrder} />
+            ))}
         </InfiniteScroll>
       </Container>
     </Layout>
@@ -99,6 +100,9 @@ export const Orders = () => {
 const Container = styled.div`
   max-width: 800px;
   margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Title = styled.h2`
