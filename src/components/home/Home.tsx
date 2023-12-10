@@ -23,7 +23,7 @@ export const Home = () => {
     if (books && books.length === 0) {
       setHasMore(false);
     }
-    setBooks((prevBooks) => [...(prevBooks || []), ...books.books]);
+    books && setBooks((prevBooks) => [...(prevBooks || []), ...books?.books]);
     setPage((prevPage) => prevPage + 1);
   };
 
