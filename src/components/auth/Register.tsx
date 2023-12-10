@@ -4,9 +4,13 @@ import { useFormik } from "formik";
 import { RegisterValidationSchema } from "../validationSchema";
 import { ErrorText } from "./Login";
 import { FaSpinner } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../api";
+import { toast } from "react-toastify";
 
 export const Register = () => {
+  const navigate = useNavigate();
+
   const {
     isSubmitting,
     setSubmitting,
@@ -25,8 +29,10 @@ export const Register = () => {
     validationSchema: RegisterValidationSchema,
     onSubmit: async (values) => {
       setSubmitting(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await axiosInstance.post("/users", values);
       setSubmitting(false);
+      toast.success("User registration successful");
+      navigate("/login");
     },
   });
 
@@ -170,12 +176,12 @@ const SubmitButton = styled.button`
   margin: 0px auto;
   width: 100px;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #5a0b4d;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: #0056b3;
+    background-color: #752768;
   }
 `;

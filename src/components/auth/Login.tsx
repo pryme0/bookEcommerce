@@ -2,9 +2,11 @@ import { styled } from "styled-components";
 import { useFormik } from "formik";
 import { LoginValidationSchema } from "../validationSchema";
 import { FaSpinner } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../api";
 
 export const Login = () => {
+  const navigate = useNavigate();
   const {
     isSubmitting,
     setSubmitting,
@@ -20,7 +22,18 @@ export const Login = () => {
     validationSchema: LoginValidationSchema,
     onSubmit: async (values) => {
       setSubmitting(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      try {
+        const response = await axiosInstance.post("/users/login", values);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem(
+          "token",
+          JSON.stringify(response.data.accessToken)
+        );
+        localStorage.setItem("cart", JSON.stringify(response.data.cart));
+        return navigate("/");
+      } catch (error: any) {
+        console.error("Error:", error.message);
+      }
       setSubmitting(false);
     },
   });
@@ -129,13 +142,13 @@ const SubmitButton = styled.button`
   margin: 0px auto;
   width: 100px;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #5a0b4d;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: #0056b3;
+    background-color: #752768;
   }
 `;
 

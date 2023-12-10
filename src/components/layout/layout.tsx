@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 import { Footer } from "./footer";
 import { Header } from "./header";
+import { SideBar } from "../sidebar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,9 +13,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     <Container>
       <Header />
       <ContentContainer>
-        <SideContainer>Side container</SideContainer>
+        <SideContainer>
+          <SideBar />
+        </SideContainer>
         {children}
-      </ContentContainer>{" "}
+      </ContentContainer>
       <Footer />
     </Container>
   );
@@ -23,17 +26,19 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100vh;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
-  height: 90vh;
-  padding: 10px;
 `;
 
 const SideContainer = styled.div`
   border-right: 1px solid red;
-
+  display: flex;
+  max-width: 15%;
+  padding: 40px 10px;
+  width: 100%;
   @media (max-width: 768px) {
     display: none;
   }
